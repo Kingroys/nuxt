@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" class="rounded-circle" :alt="alt" :width="width" :height="height">
+  <img :src="require(`~/assets${src}`)" class="rounded-circle" :alt="alt" :width="width" :height="height">
 </template>
 
 <script>
@@ -25,7 +25,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,49 +1,53 @@
-<!-- @todo: add local storage -->
 <!-- @todo: simple testing -->
 <template>
-  <div class="row">
-    <div class="col">
-      <message-form :username="username" @add-message-event="addMessage"></message-form>
-    </div>
-    <div class="col-6">
-      <div class="conversation-info">
-        <title-count text="Messages" :count="messageCount"></title-count>
-        <updated-time :value="updatedTime">
-          <a href="#" @click.prevent="deleteAllMessages">
-            <i class="bi bi-trash" v-show="messageCount"></i>
-          </a>
-        </updated-time>
+  <div class="main-container">
+    <div class="row" v-if="activeUser">
+      <div class="col">
+        <message-form :username="activeUser" @add-message-event="postMessage"></message-form>
       </div>
-      <alert v-show="!messages.length" text="No message"><i class="bi bi-emoji-frown"></i></alert>
-      <message-item
-        v-for="message in messages"
-        :key="message.id"
-        :message="message"
-        @delete-message-event="deleteMessage"
-      ></message-item>
+      <div class="col-6">
+        <div class="conversation-info">
+          <title-count text="Messages" :count="messageCount"></title-count>
+          <updated-time :value="updatedTime">
+            <a href="#" @click.prevent="deleteAllMessages">
+              <i class="bi bi-trash" v-show="messageCount"></i>
+            </a>
+          </updated-time>
+        </div>
+        <alert v-show="!messages.length" text="Aucun message"></alert>
+        <message-item
+          v-for="message in messages"
+          :key="message.id"
+          :message="message"
+          @delete-message-event="deleteMessage"
+        ></message-item>
+      </div>
+      <div class="col">
+        <message-bot
+          username="FunBot"
+          :waitingForAnswer="waitingForAnswer"
+          @add-message-event="postMessage"
+        ></message-bot>
+      </div>
     </div>
-    <div class="col">
-      <bot-user
-        username="DumBot"
-        :waitingForAnswer="waitingForAnswer"
-        @add-message-event="addMessage"
-      ></bot-user>
+    <div class="col" v-if="!activeUser">
+      <alert text="Choisissez une <strong>personne</strong> pour commencer une conversation."></alert>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapState} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 import Alert from "@/components/Alert";
-import BotUser from "@/components/BotUser";
-import MessageForm from "@/components/MessageForm";
-import MessageItem from '@/components/MessageItem'
-import TitleCount from "@/components/TitleCount";
+import MessageBot from "@/components/messages/MessageBot";
+import MessageForm from "@/components/messages/MessageForm";
+import MessageItem from '@/components/messages/MessageItem'
+import TitleCount from "@/components/title/TitleCount";
 import UpdatedTime from "@/components/UpdatedTime";
 
 export default {
   name: 'Conversation',
-  components: {Alert, BotUser, MessageForm, MessageItem, TitleCount, UpdatedTime},
+  components: {Alert, MessageBot, MessageForm, MessageItem, TitleCount, UpdatedTime},
   props: {
     username: {
       type: String,
@@ -56,32 +60,36 @@ export default {
     }
   },
   methods: {
-    addMessage(text, sideClass, waitingForAnswer) {
-      this.$store.commit('conversation/addMessage', {
+    ...mapActions('conversation', [
+      'addMessage',
+      'deleteMessage',
+      'deleteAllMessages',
+    ]),
+    postMessage(text, sideClass, waitingForAnswer) {
+      this.addMessage({
         'text': text,
         'sideClass': sideClass
       });
       this.waitingForAnswer = waitingForAnswer;
     },
-    deleteMessage(id) {
-      this.$store.commit('conversation/deleteMessage', id);
-    },
-    deleteAllMessages() {
-      if (this.messages.length) {
-        this.$store.commit('conversation/deleteAllMessages');
-      }
-    },
   },
   computed: {
     ...mapGetters('conversation', {
+      activeUser: 'getActiveUser',
       messages: 'getMessages',
       updatedTime: 'getUpdatedTime',
       messageCount: 'getMessageCount'
     }),
   },
+  beforeCreate: function () {
+    this.$store.commit('conversation/SET_USER', this.$route.params.id);
+  },
+  mounted() {
+    this.$store.commit('conversation/INIT');
+  },
   watch: {
     messages() {
-      this.$store.commit('conversation/setUpdatedTime');
+      this.$store.commit('conversation/UPDATE');
     }
   }
 }

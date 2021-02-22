@@ -1,6 +1,6 @@
 <template>
   <p>
-    Updated at: {{ value }}
+    Mise à jour : {{ value }}
     <slot></slot>
   </p>
 </template>

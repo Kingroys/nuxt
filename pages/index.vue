@@ -1,26 +1,22 @@
 <template>
-  <div id="page-container">
-    <conversation username="Maxime"></conversation>
-    <NuxtLink to="/about">About</NuxtLink>
+  <div>
+    <menu-element></menu-element>
+    <div class="main-container">
+      <div class="row">
+        <div class="col">
+          <alert text="Select a <strong>user</strong> to start a conversation."></alert>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Conversation from './../components/Conversation'
+import MenuElement from "~/components/menu/MenuElement";
+import Alert from "~/components/Alert";
 
 export default {
   name: 'App',
-  components: {Conversation}
+  components: {Alert, MenuElement},
 }
 </script>
-
-<style scoped>
-html, body {
-  background: #ffffff;
-}
-
-#page-container {
-  margin: 40px;
-}
-</style>
-
