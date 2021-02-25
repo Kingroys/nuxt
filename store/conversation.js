@@ -1,21 +1,23 @@
 export const state = () => ({
+  username: '',
   messages: [],
-  updatedTime: '-',
-  activeUser: '',
+  updatedTime: [],
 });
 
 export const getters = {
-  getActiveUser: state => {
-    return state.activeUser;
+  getUsername: state => {
+    return state.username;
   },
   getMessages: state => {
-    return state.messages;
+    return state.messages.filter(message => message.username === state.username);
   },
   getUpdatedTime: state => {
-    return state.updatedTime;
+    let updatedTime = state.updatedTime.find(updatedTime => updatedTime.username === state.username) ?? [];
+
+    return updatedTime.time ?? updatedTime.time;
   },
   getMessageCount: state => {
-    return state.messages.length;
+    return state.messages.filter(message => message.username === state.username).length;
   },
 }
 
@@ -28,21 +30,13 @@ export const actions = {
     commit('DELETE_MESSAGE', id);
   },
   deleteAllMessages({commit}) {
-    commit('DELETE_ALL_MESSAGES');
+    commit('DELETE_USER_MESSAGES');
   },
 }
 
 export const mutations = {
   ['SET_USER'](state, payload) {
-    state.activeUser = payload;
-    state.messages = [];
-  },
-  ['INIT'](state, payload) {
-    if (localStorage !== undefined && localStorage[state.activeUser] !== undefined) {
-      state.messages = JSON.parse(localStorage[state.activeUser]).messages;
-    } else {
-      state.messages = [];
-    }
+    state.username = payload;
   },
   ['ADD_MESSAGE'](state, payload) {
     state.messages.unshift(payload);
@@ -53,18 +47,13 @@ export const mutations = {
     }).indexOf(payload);
     state.messages.splice(index, 1);
   },
-  ['DELETE_ALL_MESSAGES'](state) {
-    state.messages = [];
+  ['DELETE_USER_MESSAGES'](state) {
+    state.messages = state.messages.filter(message => message.username !== state.username);
   },
   ['UPDATE'](state, payload) {
-    state.updatedTime = new Date().toLocaleString("fr-FR");
-    if (localStorage !== undefined) {
-      if (localStorage[state.activeUser] === undefined) {
-        localStorage[state.activeUser] = {};
-      }
-      localStorage[state.activeUser] = JSON.stringify({
-        messages: state.messages,
-      });
-    }
+    state.updatedTime.unshift( {
+      'time': new Date().toLocaleString('fr-FR'),
+      'username': state.username,
+    });
   },
 }

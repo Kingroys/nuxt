@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "TitleElement",
+  name: 'TitleElement',
   props: {
     text: {
       type: String,

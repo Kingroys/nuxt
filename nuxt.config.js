@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Test Nuxt - Maxime POIX',
+    title: 'Nuxt',
     htmlAttrs: {
       lang: 'fr'
     },
@@ -39,10 +39,20 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
   ],
+
+  axios: {
+    // proxy: true
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    optimization: {
+      minimize: false,
+      runtimeChunk: true
+    },
   },
   router: {
     routes: [

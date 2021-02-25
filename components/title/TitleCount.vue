@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import TitleElement from "@/components/title/TitleElement";
+import TitleElement from '@/components/title/TitleElement';
 
 export default {
-  name: "TitleCount",
+  name: 'TitleCount',
   components: {TitleElement},
   props: {
     text: {

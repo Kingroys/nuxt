@@ -1,15 +1,23 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Test Nuxt</a>
+    <a class="navbar-brand" href="/">Nuxt</a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
             Messages
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <menu-link :menu="menu" v-for="menu in menus" :key="menu"></menu-link>
+            <menu-link
+              v-for="message in messages"
+              :key="message.link"
+              :item="message"
+            ></menu-link>
           </div>
+        </li>
+        <li class="nav-item">
+          <menu-link :item="pokemons"></menu-link>
         </li>
       </ul>
     </div>
@@ -17,18 +25,31 @@
 </template>
 
 <script>
-import MenuLink from "~/components/menu/MenuLink";
+import MenuLink from '~/components/menu/MenuLink';
 
 export default {
-  name: "MenuElement",
+  name: 'MenuElement',
   components: {MenuLink},
   data() {
     return {
-      menus: [
-        'alexandre',
-        'jordan',
-        'maxime'
-      ]
+      messages: [
+        {
+          'link': '/messages/alexandre',
+          'text': 'Alexandre',
+        },
+        {
+          'link': '/messages/jordan',
+          'text': 'Jordan',
+        },
+        {
+          'link': '/messages/maxime',
+          'text': 'Maxime',
+        },
+      ],
+      pokemons: {
+        'link': '/pokemons',
+        'text': 'Pokémons',
+      },
     }
   }
 }

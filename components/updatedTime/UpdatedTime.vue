@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "UpdatedTime",
+  name: 'UpdatedTime',
   props: {
     value: {
       type: String,

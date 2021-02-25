@@ -2,17 +2,17 @@
   <div>
     <title-image
       :username="username"
-      :src="'/' + `${username}` + '.png'"
+      :src="require(`~/assets/${username}.png`)"
     ></title-image>
     <input type="text" class="form-control" placeholder="Message" v-model="message" v-bind:class="{ 'is-invalid': error }" @keyup.enter.prevent="onAddMessage">
   </div>
 </template>
 
 <script>
-import TitleImage from "@/components/title/TitleImage";
+import TitleImage from '@/components/title/TitleImage';
 
 export default {
-  name: "MessageForm",
+  name: 'MessageForm',
   components: {TitleImage},
   props: {
     username: {

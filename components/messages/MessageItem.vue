@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "MessageItem",
+  name: 'MessageItem',
   props: {
     message: Object,
     default: {},

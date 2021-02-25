@@ -4,7 +4,21 @@
     <div class="main-container">
       <div class="row">
         <div class="col">
-          <alert text="Select a <strong>user</strong> to start a conversation."></alert>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Features</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-success">
+              <td>Messages</td>
+            </tr>
+            <tr class="table-success">
+              <td>Pokémons</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -12,11 +26,10 @@
 </template>
 
 <script>
-import MenuElement from "~/components/menu/MenuElement";
-import Alert from "~/components/Alert";
+import MenuElement from '@/components/menu/MenuElement';
 
 export default {
-  name: 'App',
-  components: {Alert, MenuElement},
+  name: 'Index',
+  components: {MenuElement},
 }
 </script>

@@ -1,25 +1,15 @@
 <template>
-  <NuxtLink class="nav-link" :class="{ active: activeMenu === menu }" :to="link">{{ menu | capitalize }}</NuxtLink>
+  <NuxtLink class="nav-link" :to="item.link">{{ item.text }}</NuxtLink>
 </template>
 
 <script>
 export default {
-  name: "MenuLink",
+  name: 'MenuLink',
   props: {
-    menu: {
-      type: String,
-      default: '',
+    item: {
+      type: Object,
+      default: {},
     },
   },
-  data() {
-    return {
-      activeMenu: this.$route.params.id
-    }
-  },
-  computed: {
-    link() {
-      return '/messages/' + this.menu;
-    }
-  }
 }
 </script>

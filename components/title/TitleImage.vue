@@ -3,19 +3,20 @@
     <image-element
       :src="src"
       :alt="username"
-      :width="size"
-      :height="size"
+      :height="imageHeight"
+      :width="imageWidth"
+      :className="className"
     ></image-element>
     <title-element :text="username"></title-element>
   </div>
 </template>
 
 <script>
-import ImageElement from "@/components/ImageElement";
-import TitleElement from "@/components/title/TitleElement";
+import ImageElement from '@/components/image/ImageElement';
+import TitleElement from '@/components/title/TitleElement';
 
 export default {
-  name: "TitleImage",
+  name: 'TitleImage',
   components: {ImageElement, TitleElement},
   props: {
     username: {
@@ -29,7 +30,9 @@ export default {
   },
   data() {
     return {
-      size: 65
+      imageHeight: '65px',
+      imageWidth: '65px',
+      className: 'rounded-circle',
     }
   },
 }

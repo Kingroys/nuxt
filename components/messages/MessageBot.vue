@@ -2,12 +2,12 @@
   <div>
     <title-image
       :username="username"
-      src="/bot.png"
+      :src="require(`~/assets/bot.png`)"
     ></title-image>
     <alert
       :text="'Je suis ' + username + '.<br>Écrivez moi, je connais <strong>' + responseCount + '</strong> blagues.'"
-      class-name="alert-secondary">
-    </alert>
+      class-name="alert-secondary"
+    ></alert>
   </div>
 </template>
 
@@ -16,11 +16,11 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 Vue.use(VueResource);
 
-import Alert from "@/components/Alert";
-import TitleImage from "@/components/title/TitleImage";
+import Alert from '@/components/alert/Alert';
+import TitleImage from '@/components/title/TitleImage';
 
 export default {
-  name: "MessageBot",
+  name: 'MessageBot',
   components: {Alert, TitleImage},
   props: {
     username: {

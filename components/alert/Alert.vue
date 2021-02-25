@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "Alert",
+  name: 'Alert',
   props: {
     text: {
       type: String,

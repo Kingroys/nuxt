@@ -1,17 +1,19 @@
 <template>
   <div>
     <menu-element></menu-element>
-    <conversation username="Maxime"></conversation>
+    <div class="main-container">
+      <message-list></message-list>
+    </div>
   </div>
 </template>
 
 <script>
-import Conversation from '~/components/Conversation'
-import MenuElement from "~/components/menu/MenuElement";
+import MessageList from '@/components/messages/MessageList';
+import MenuElement from '@/components/menu/MenuElement';
 
 export default {
-  name: 'App',
-  components: {MenuElement, Conversation},
+  name: 'Messages',
+  components: {MenuElement, MessageList},
 }
 </script>
 

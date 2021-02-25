@@ -1,9 +1,12 @@
 <!-- @todo: simple testing -->
 <template>
-  <div class="main-container">
-    <div class="row" v-if="activeUser">
+  <div>
+    <div class="row" v-if="username">
       <div class="col">
-        <message-form :username="activeUser" @add-message-event="postMessage"></message-form>
+        <message-form
+          :username="username"
+          @add-message-event="postMessage"
+        ></message-form>
       </div>
       <div class="col-6">
         <div class="conversation-info">
@@ -14,7 +17,10 @@
             </a>
           </updated-time>
         </div>
-        <alert v-show="!messages.length" text="Aucun message"></alert>
+        <alert
+          v-show="!messages.length"
+          text="Aucun message"
+        ></alert>
         <message-item
           v-for="message in messages"
           :key="message.id"
@@ -30,30 +36,24 @@
         ></message-bot>
       </div>
     </div>
-    <div class="col" v-if="!activeUser">
+    <div class="col" v-if="!username">
       <alert text="Choisissez une <strong>personne</strong> pour commencer une conversation."></alert>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from "vuex";
-import Alert from "@/components/Alert";
-import MessageBot from "@/components/messages/MessageBot";
-import MessageForm from "@/components/messages/MessageForm";
-import MessageItem from '@/components/messages/MessageItem'
-import TitleCount from "@/components/title/TitleCount";
-import UpdatedTime from "@/components/UpdatedTime";
+import {mapGetters, mapActions} from 'vuex';
+import Alert from '@/components/alert/Alert';
+import MessageBot from '@/components/messages/MessageBot';
+import MessageForm from '@/components/messages/MessageForm';
+import MessageItem from '@/components/messages/MessageItem';
+import TitleCount from '@/components/title/TitleCount';
+import UpdatedTime from '@/components/updatedTime/UpdatedTime';
 
 export default {
-  name: 'Conversation',
+  name: 'MessageList',
   components: {Alert, MessageBot, MessageForm, MessageItem, TitleCount, UpdatedTime},
-  props: {
-    username: {
-      type: String,
-      default: '',
-    },
-  },
   data() {
     return {
       waitingForAnswer: false,
@@ -68,24 +68,22 @@ export default {
     postMessage(text, sideClass, waitingForAnswer) {
       this.addMessage({
         'text': text,
-        'sideClass': sideClass
+        'sideClass': sideClass,
+        'username': this.username,
       });
       this.waitingForAnswer = waitingForAnswer;
     },
   },
   computed: {
     ...mapGetters('conversation', {
-      activeUser: 'getActiveUser',
+      username: 'getUsername',
       messages: 'getMessages',
       updatedTime: 'getUpdatedTime',
-      messageCount: 'getMessageCount'
+      messageCount: 'getMessageCount',
     }),
   },
   beforeCreate: function () {
     this.$store.commit('conversation/SET_USER', this.$route.params.id);
-  },
-  mounted() {
-    this.$store.commit('conversation/INIT');
   },
   watch: {
     messages() {
